@@ -9,7 +9,7 @@ from .tools import abrir_vscode, abrir_spotify, abrir_steam, abrir_discord, abri
 # CRIANDO O AGENTE
 # ===============================================================================
 
-# configura gemini como LLM usando CrewAI LLM
+# configura o gemini como LLM usando CrewAI LLM
 api_key = os.getenv("GOOGLE_API_KEY")
 if not api_key:
     raise ValueError("GOOGLE_API_KEY não configurada no arquivo .env")
