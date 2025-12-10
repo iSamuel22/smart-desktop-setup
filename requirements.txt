@@ -1,0 +1,5 @@
+streamlit
+crewai
+pyautogui
+python-dotenv
+langchain-google-genai
