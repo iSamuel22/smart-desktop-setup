@@ -1,6 +1,10 @@
-"""patch para tornar CrewAI compatível com Windows"""
 import signal
 import platform
+import os
+import warnings
+
+# desabilitar avisos de sinal
+warnings.filterwarnings('ignore', category=UserWarning, message='.*signal only works.*')
 
 # adicionar sinais Unix faltantes no Windows
 if platform.system() == 'Windows':
@@ -36,5 +40,15 @@ if platform.system() == 'Windows':
         if not hasattr(signal, nome):
             setattr(signal, nome, valor)
 
-import os
 os.environ['CREWAI_TELEMETRY_DISABLE_SIGNALS'] = '1'
+
+# substituir signal.signal para ignorar erros em threads secundárias
+_original_signal = signal.signal
+
+def _signal_safe(sig, handler):
+    try:
+        return _original_signal(sig, handler)
+    except ValueError:
+        return None
+
+signal.signal = _signal_safe

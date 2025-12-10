@@ -2,21 +2,7 @@ import os
 from crewai import Agent
 from crewai.llm import LLM
 
-from .tools import abrir_notion, abrir_vscode, abrir_spotify, abrir_steam, abrir_documentacao, abrir_discord
-
-
-def _classify_contexto(input_text: str) -> str:
-    """classifica o pedido do usuário em: programacao, musica ou jogos."""
-    t = input_text.lower()
-    
-    if any(k in t for k in ['codar', 'programa', 'programação', 'vs code', 'desenvolv']):
-        return 'programacao'
-    if any(k in t for k in ['guitarra', 'música', 'musica', 'tocar', 'relaxar']):
-        return 'musica'
-    if any(k in t for k in ['jogar', 'jogo', 'games', 'steam']):
-        return 'jogos'
-    
-    return 'programacao' # padrão
+from .tools import abrir_vscode, abrir_spotify, abrir_steam, abrir_discord, abrir_documentacao, abrir_notion
 
 
 # ===============================================================================
@@ -42,25 +28,6 @@ gerente_setup = Agent(
 e abre os programas necessários para o contexto (programação, música ou jogos).""",
     verbose=False,
     allow_delegation=False,
-    tools=[abrir_vscode, abrir_spotify, abrir_steam, abrir_documentacao, abrir_discord, abrir_notion],
+    tools=[abrir_vscode, abrir_spotify, abrir_steam, abrir_discord, abrir_documentacao, abrir_notion],
     llm=llm,
 )
-
-
-def executar_agente(input_text: str) -> list:
-    """executa o agente para preparar o ambiente."""
-    resultados = []
-    contexto = _classify_contexto(input_text)
-    
-    if contexto == 'programacao':
-        resultados.append(abrir_vscode())
-        resultados.append(abrir_documentacao())
-        resultados.append(abrir_notion())
-    elif contexto == 'musica':
-        resultados.append(abrir_spotify())
-    elif contexto == 'jogos':
-        resultados.append(abrir_steam())
-        resultados.append(abrir_spotify())
-        resultados.append(abrir_discord())
-    
-    return resultados

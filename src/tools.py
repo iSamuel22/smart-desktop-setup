@@ -48,16 +48,6 @@ def abrir_discord() -> str:
     return "Discord aberto com sucesso"
 
 @tool
-def abrir_notion() -> str:
-    """abre o Notion para organização e anotações"""
-    pyautogui.press('win')
-    time.sleep(1)
-    pyautogui.write('Notion')
-    time.sleep(1)
-    pyautogui.press('enter')
-    return "Notion aberto com sucesso"
-
-@tool
 def abrir_documentacao() -> str:
     """abre o navegador padrão com a documentação do Python"""
     try:
@@ -65,3 +55,12 @@ def abrir_documentacao() -> str:
         return "Documentação Python aberta no navegador padrão"
     except Exception as e:
         return f"Erro ao abrir documentação: {str(e)}"
+
+@tool
+def abrir_notion() -> str:
+    """abre o Notion para organização e anotações"""
+    try:
+        webbrowser.open('https://www.notion.so')
+        return "Notion aberto no navegador"
+    except Exception as e:
+        return f"Erro ao abrir Notion: {str(e)}"
