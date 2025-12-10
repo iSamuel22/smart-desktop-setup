@@ -47,6 +47,15 @@ def abrir_discord() -> str:
     pyautogui.press('enter')
     return "Discord aberto com sucesso"
 
+@tool
+def abrir_notion() -> str:
+    """abre o Notion para organização e anotações"""
+    pyautogui.press('win')
+    time.sleep(1)
+    pyautogui.write('Notion')
+    time.sleep(1)
+    pyautogui.press('enter')
+    return "Notion aberto com sucesso"
 
 @tool
 def abrir_documentacao() -> str:

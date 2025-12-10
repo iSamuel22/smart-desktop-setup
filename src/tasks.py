@@ -1,7 +1,7 @@
 """Tasks e Crew para orquestração do Smart Desktop Setup."""
 from crewai import Task, Crew, Process
 from .agents import gerente_setup, _classify_contexto
-from .tools import abrir_vscode, abrir_spotify, abrir_steam, abrir_documentacao
+from .tools import abrir_vscode, abrir_spotify, abrir_steam, abrir_discord, abrir_documentacao, abrir_notion
 
 
 def _executar_contexto(contexto: str) -> list:
@@ -12,11 +12,13 @@ def _executar_contexto(contexto: str) -> list:
         if contexto == 'programacao':
             resultados.append(abrir_vscode.invoke({}))
             resultados.append(abrir_documentacao.invoke({}))
+            resultados.append(abrir_notion.invoke({}))
         elif contexto == 'musica':
             resultados.append(abrir_spotify.invoke({}))
         elif contexto == 'jogos':
             resultados.append(abrir_steam.invoke({}))
             resultados.append(abrir_spotify.invoke({}))
+            resultados.append(abrir_discord.invoke({}))
     except Exception as e:
         resultados.append(f"Erro ao executar ferramentas: {str(e)}")
     
@@ -37,7 +39,7 @@ def run_task(input_usuario: str):
     tarefa_setup = Task(
         description=f"""Analise o pedido do usuário: '{input_usuario}'. 
 Identifique qual é o contexto (Programação, Música ou Jogos) e abra os programas desse contexto:
-- Se for programação: abra VS Code e Documentação
+- Se for programação: abra VS Code, Documentação e Notion
 - Se for música: abra Spotify
 - Se for jogos: abra Steam, Spotify e Discord""",
         expected_output="Confirmação de quais programas foram abertos",

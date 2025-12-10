@@ -2,7 +2,7 @@ import os
 from crewai import Agent
 from crewai.llm import LLM
 
-from .tools import abrir_vscode, abrir_spotify, abrir_steam, abrir_documentacao, abrir_discord
+from .tools import abrir_notion, abrir_vscode, abrir_spotify, abrir_steam, abrir_documentacao, abrir_discord
 
 
 def _classify_contexto(input_text: str) -> str:
@@ -42,7 +42,7 @@ gerente_setup = Agent(
 e abre os programas necessários para o contexto (programação, música ou jogos).""",
     verbose=False,
     allow_delegation=False,
-    tools=[abrir_vscode, abrir_spotify, abrir_steam, abrir_documentacao, abrir_discord],
+    tools=[abrir_vscode, abrir_spotify, abrir_steam, abrir_documentacao, abrir_discord, abrir_notion],
     llm=llm,
 )
 
@@ -55,6 +55,7 @@ def executar_agente(input_text: str) -> list:
     if contexto == 'programacao':
         resultados.append(abrir_vscode())
         resultados.append(abrir_documentacao())
+        resultados.append(abrir_notion())
     elif contexto == 'musica':
         resultados.append(abrir_spotify())
     elif contexto == 'jogos':
